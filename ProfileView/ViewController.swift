@@ -12,7 +12,7 @@ let offset_HeaderStop:CGFloat = 40.0 // At this offset the Header stops its tran
 let offset_B_LabelHeader:CGFloat = 95.0 // At this offset the Black label reaches the Header
 let distance_W_LabelHeader:CGFloat = 35.0 // The distance between the bottom of the Header and the top of the White Label
 
-class ViewController: UIViewController, UIScrollViewDelegate {
+class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var profileImage: UIImageView!
@@ -20,12 +20,18 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var headerLabel: UILabel!
     @IBOutlet var headerImageView:UIImageView!
     @IBOutlet var headerBlurImageView:UIImageView!
+    @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         scrollView.delegate = self
+        
+        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "memberName")
+        
+        tableView.delegate = self
+        tableView.dataSource = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -112,6 +118,23 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         
         header.layer.transform = headerTransform
         profileImage.layer.transform = profileImageTransform
+    }
+    
+    let memberNames = ["Kapil Rathore", "Shubham Pandey", "Navneet M Kumar", "Shreya Sharma", "Priya Sallan", "Nishtha Sharma", "Kapil Sharma", "Naman Pandey"]
+    
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of rows
+        return memberNames.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        // your cell coding
+        let cell = tableView.dequeueReusableCellWithIdentifier("memberName")! as UITableViewCell
+        
+        cell.textLabel!.text = memberNames[indexPath.row]
+
+        return cell
     }
 }
 
